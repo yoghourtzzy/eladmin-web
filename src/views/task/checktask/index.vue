@@ -141,6 +141,8 @@ export default {
       //改变表头
       this.changeTableHeader();
       //重新请求数据
+      //防止切换选项时加载延迟 直接清空
+      this.tableData=null;
       this.querydata('api/task/tome?state='+this.selectedValue);
     }
   },
@@ -239,13 +241,18 @@ export default {
           message: '汇报任务成功',
           type: 'success'
         });
-        //删除表格数据
-        this.tableData=this.tableData.filter(value => {
-        if(this.currentTaskData.id===value.id){
-          return false;
+        //更新表格数据
+        if(this.selectedValue===0){ //在待完成界面汇报任务
+          this.tableData=this.tableData.filter(value => {
+            if(this.currentTaskData.id===value.id){
+              return false;
+            }
+            return true;
+          })
+        }else if(this.selectedValue===1){//在待审批页面修改任务
+            this.currentTaskData.reportContent=this.reportDialogForm.reportContent;
         }
-        return true;
-      })
+
     });
     }
   }
