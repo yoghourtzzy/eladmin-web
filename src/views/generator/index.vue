@@ -29,7 +29,7 @@
       <el-table-column v-if="columns.visible('remark')" :show-overflow-tooltip="true" prop="remark" label="备注" />
       <el-table-column v-if="columns.visible('createTime')" prop="createTime" label="创建日期">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
+          <span>{{ scope.row.createTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="160px" align="center" fixed="right">

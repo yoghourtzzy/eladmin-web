@@ -28,6 +28,7 @@ import router from './router/routers'
 
 import './assets/icons' // icon
 import './router/index' // permission control
+import dateFormat from "./utils/dateFormat";
 
 Vue.use(VueHighlightJS)
 Vue.use(mavonEditor)
@@ -36,6 +37,8 @@ Vue.use(dict)
 Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size
 })
+Vue.filter('dateFormat', dateFormat)
+
 
 Vue.config.productionTip = false
 

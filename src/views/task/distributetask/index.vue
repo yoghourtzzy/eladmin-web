@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-      <el-form-item label="任务名称" prop="name">
-        <el-input v-model="form.name" />
+      <el-form-item label="任务名称" prop="taskName">
+        <el-input v-model="form.taskName" />
       </el-form-item>
-      <el-form-item label="任务详情" prop="desc">
-        <el-input v-model="form.desc" type="textarea" />
+      <el-form-item label="任务详情" prop="taskDetail">
+        <el-input v-model="form.taskDetail" type="textarea" />
       </el-form-item>
       <el-form-item label="开始时间">
         <el-col :span="11">
@@ -70,12 +70,12 @@
 
         <el-table-column
           label="工号"
-          prop="date"
+          prop="num"
           width="120"
         />
 
         <el-table-column
-          prop="name"
+          prop="username"
           label="姓名"
           show-overflow-tooltip
         />
@@ -91,13 +91,13 @@
 
 <script>
 import crudTask from '@/api/task/task'
-
+import request from '@/utils/request'
 export default {
   data() {
     return {
       form: {
-        name: '',
-        desc: '',
+        taskName: '',
+        taskDetail: '',
         startDate1: '',
         startDate2: '',
         finishDate1: '',
@@ -110,10 +110,10 @@ export default {
       completeData: [], // 请求来的全部数据
       // 表单验证
       rules: {
-        name: [
-          { required: true, message: '请输入任务名称', trigger: 'blur' }
+        taskName: [
+          { required: true, message: '请输入任务名称', trigger: 'change' }
         ],
-        desc: [
+        taskDetail: [
           { required: true, message: '输入任务详情', trigger: 'change' }
         ],
         startDate1: [
@@ -134,92 +134,80 @@ export default {
   },
 
   watch: {
-    // 如果 `question` 发生改变，这个函数就会运行
-    searchKeyword: function(newQuestion, oldQuestion) {
+    searchKeyword: function(newObj, oldObj) {
       this.tableData = this.completeData.filter(item => {
-        if (item.name.includes(this.searchKeyword)) {
+        if (item.username.includes(this.searchKeyword)) {
           return true
         }
       })
     }
   },
+
+  created:function(){
+      this.querydata();
+  },
   methods: {
     onSubmit(formName) {
       // 检验
-      crudTask.add(this.form)
+     // crudTask.add(this.form)
       this.$refs[formName].validate((valid) => {
         // 校验表格是否又指定人员
-        if (this.multipleSelection == null) {
-          valid = false
+        if (this.form.multipleSelection == null) {
+          valid = false;
           this.$message({
             message: '请指定人员完成任务',
             type: 'warning'
           })
         }
         if (valid) {
-          // 提交表单
-          alert('submit!')
+          this.form.multipleSelection.forEach(item=>{
+            var submitData={
+              taskName:this.form.taskName,
+              detailContent: this.form.taskDetail,
+              startTime:this.mergeDate(this.form.startDate1,this.form.startDate2),
+              finishTime:this.mergeDate(this.form.finishDate1,this.form.finishDate2),
+              toUserId: item.id,
+              toUserName:item.username
+            };
+            crudTask.add(submitData).then(data=>{
+              this.$message({
+                message: '创建任务成功',
+                type: 'success'
+              })
+            })
+          })
         }
       })
     },
 
-    querydata() {
-      console.log('请求数据.....')
-      this.completeData = [{
-        date: '2016-05-03',
-        name: '王虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小大',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小大',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-08',
-        name: '王虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }]
-      this.tableData = this.completeData
+    //请求人员数据
+    querydata(){
+      //注意 要改成当前部门下的所有人员数据
+      console.log('请求数据.....');
+      request({
+        url: 'api/users',
+        method: 'get'
+      }).then(data=>{
+        this.completeData=data.content
+        this.tableData = this.completeData
+      })
     },
 
-    handleSelectionChange(val) {
-      this.form.multipleSelection = val
+      handleSelectionChange(val) {
+        this.form.multipleSelection = val;
+      },
+    //合并两个时间
+    mergeDate(date1,date2){
+      var completeDate=new Date();
+      completeDate.setFullYear(date1.getFullYear());
+      completeDate.setMonth(date1.getMonth());
+      completeDate.setDate(date1.getDate());
+      completeDate.setHours(date2.getHours());
+      completeDate.setMinutes(date2.getMinutes());
+      completeDate.setSeconds(date2.getSeconds());
+      return completeDate;
     }
+
   }
 }
 </script>

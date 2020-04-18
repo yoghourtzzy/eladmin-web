@@ -131,6 +131,7 @@ export default {
             this.loading = false
             this.getCode()
           })
+
         } else {
           console.log('error submit!!')
           return false

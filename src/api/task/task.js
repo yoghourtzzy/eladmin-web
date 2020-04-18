@@ -23,5 +23,13 @@ export function edit(data) {
     data
   })
 }
+export function report(data) {
+  return request({
+    url: 'api/task/report',
+    method: 'post',
+    data
+  })
+}
 
-export default { add, edit, del }
+
+export default { add, edit, del,report }
