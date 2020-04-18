@@ -24,6 +24,15 @@
         </span>
       </el-dialog>
 
+    <el-dialog
+      title="汇报详情"
+      :visible.sync="reportContentDialogVisible"
+      width="30%">
+      <span>{{currentTaskData.reportContent}}</span>
+      <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="reportContentDialogVisible=false">确 定</el-button>
+        </span>
+    </el-dialog>
       <!--汇报任务对话框-->
       <el-dialog
         title="汇报任务"
@@ -48,25 +57,30 @@
                 height="500">
         <el-table-column prop="taskName" label="任务名" />
         <el-table-column prop="fromUserName" label="指派人" />
-        <el-table-column prop="startTime" label="任务开始时间">
+        <el-table-column prop="startTime"  label="任务开始时间">
           <template slot-scope="scope">
             <span>{{ scope.row.startTime|dateFormat()}}</span>
           </template>
         </el-table-column>
-        <el-table-column  prop="finishTime" label="任务结束时间">
+        <el-table-column  prop="finishTime"  label="任务结束时间">
           <template slot-scope="scope">
             <span>{{ scope.row.finishTime|dateFormat()}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="updateTime" :label="updateTimeColLable " />
-        <el-table-column prop="score" width="50px" :label="scoreColLable" />
+        <el-table-column prop="reportTime"  :label="updateTimeColLable " >
+          <template slot-scope="scope">
+            <span v-show="selectedValue===1||selectedValue===2">{{ scope.row.reportTime|dateFormat()}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="score" :label="scoreColLable" />
 
-        <el-table-column  label="操作" width="200px" align="center">
+        <el-table-column  label="操作" width="290px" align="center">
 
           <template slot-scope="scope" >
-            <el-button type="primary" round size="small"  @click="handleCheckDetailClick(scope.row)" >查看详情</el-button>
+            <el-button type="primary" round size="small"  @click="handleCheckDetailClick(scope.row)" >任务详情</el-button>
+            <el-button type="primary" round size="small"  @click="handleReportContentClick(scope.row)" v-show="selectedValue===1||selectedValue===2" >汇报详情</el-button>
             <el-button type="success" round size="small" @click="handleReportClick(scope.row)" v-show="selectedValue===0">汇报任务</el-button>
-            <el-button type="danger" icon="el-icon-delete" circle @click="handleCheckDetailClick(scope.row)" v-show="selectedValue===1"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="handlDelReportClick(scope.row)" v-show="selectedValue===1"></el-button>
             <el-button type="warning" icon="el-icon-edit"  circle @click="handleReportClick(scope.row)" v-show="selectedValue===1"></el-button>
           </template>
 
@@ -87,12 +101,14 @@
 <script>
   import crudTask from '@/api/task/task'
   import request from '@/utils/request'
+  import {delreport} from "../../../api/task/task";
 export default {
   data() {
     return {
       tableData: [], // 表格中显示的数据
       taskDetailDialogVisible: false,//控制对任务详情话框的关闭与打开
       reportDialogVisible:false,//控制汇报任务对话框的关闭与打开
+      reportContentDialogVisible:false,
       currentTaskData:'',//按钮点击的列的详细数据
       updateTimeColLable:null,
       scoreColLable:null,
@@ -125,15 +141,7 @@ export default {
       //改变表头
       this.changeTableHeader();
       //重新请求数据
-      this.querydata('api/task/tome?state='+this.selectedValue());
-      // if(this.selectedValue===0){
-      //
-      // }else if(this.selectedValue===1){
-      //   this.querydata('api/taskreport/tome?state='+1);
-      // }else{
-      //   this.querydata('api/task/tome?state='+0);
-      // }
-
+      this.querydata('api/task/tome?state='+this.selectedValue);
     }
   },
 
@@ -158,6 +166,9 @@ export default {
       if(this.selectedValue===0){
         this.updateTimeColLable=null;
         this.scoreColLable=null;
+      }else if(this.selectedValue===1){
+        this.updateTimeColLable='提交时间';
+        this.scoreColLable=null;
       }else{
         this.updateTimeColLable='提交时间';
         this.scoreColLable='评分';
@@ -168,11 +179,33 @@ export default {
       this.currentTaskData=row;
       this.taskDetailDialogVisible=true;
     },
+    handleReportContentClick(row){
+      this.currentTaskData=row;
+      this.reportContentDialogVisible=true;
+    },
+
 
     handleReportClick(row){
       //设计汇报任务表
       this.currentTaskData=row;
       this.reportDialogVisible=true;
+    },
+
+    handlDelReportClick(row){
+      //发送请求
+      crudTask.delreport(row.id).then(data=>{
+        this.$message({
+          message: '删除汇报成功',
+          type: 'success'
+        });
+        //删除行
+        this.tableData=this.tableData.filter(value => {
+          if(row.id===value.id){
+            return false;
+          }
+          return true;
+        })
+      })
     },
 
     //定义对话框的关闭行为

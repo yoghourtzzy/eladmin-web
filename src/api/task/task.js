@@ -31,5 +31,13 @@ export function report(data) {
   })
 }
 
+export function delreport(id) {
+  return request({
+    url: 'api/task/report',
+    method: 'delete',
+    data:id
+  })
+}
 
-export default { add, edit, del,report }
+
+export default { add, edit, del,report,delreport }
