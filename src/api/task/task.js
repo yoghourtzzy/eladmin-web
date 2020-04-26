@@ -8,7 +8,7 @@ export function add(data) {
   })
 }
 
-export function del(ids) {
+export function deltask(ids) {
   return request({
     url: 'api/task/',
     method: 'delete',
@@ -35,9 +35,17 @@ export function delreport(id) {
   return request({
     url: 'api/task/report',
     method: 'delete',
-    data:id
+    id
+  })
+}
+
+export function grade(data) {
+  return request({
+    url: 'api/task/grade',
+    method: 'put',
+    data
   })
 }
 
 
-export default { add, edit, del,report,delreport }
+export default { add, edit, deltask,report,delreport,grade }

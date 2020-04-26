@@ -12,7 +12,7 @@
           :value="item.value">
         </el-option>
       </el-select>
-
+      <el-button type="success"  round size="small"  @click="handleReflashClick() ">刷新</el-button>
     </div>
       <el-dialog
         title="任务详情"
@@ -67,7 +67,7 @@
             <span>{{ scope.row.finishTime|dateFormat()}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="reportTime"  :label="updateTimeColLable " >
+        <el-table-column prop="reportTime"  :label="reportTimeColLable " >
           <template slot-scope="scope">
             <span v-show="selectedValue===1||selectedValue===2">{{ scope.row.reportTime|dateFormat()}}</span>
           </template>
@@ -110,7 +110,7 @@ export default {
       reportDialogVisible:false,//控制汇报任务对话框的关闭与打开
       reportContentDialogVisible:false,
       currentTaskData:'',//按钮点击的列的详细数据
-      updateTimeColLable:null,
+      reportTimeColLable:null,
       scoreColLable:null,
       reportDialogForm: {
               reportContent:''
@@ -162,17 +162,20 @@ export default {
       })
     },
 
+    handleReflashClick(){
+      this.querydata('api/task/tome?state='+this.selectedValue);
+    },
 
     //改变表头，渲染出评分列
     changeTableHeader(){
       if(this.selectedValue===0){
-        this.updateTimeColLable=null;
+        this.reportTimeColLable=null;
         this.scoreColLable=null;
       }else if(this.selectedValue===1){
-        this.updateTimeColLable='提交时间';
+        this.reportTimeColLable='提交时间';
         this.scoreColLable=null;
       }else{
-        this.updateTimeColLable='提交时间';
+        this.reportTimeColLable='提交时间';
         this.scoreColLable='评分';
       }
     },
