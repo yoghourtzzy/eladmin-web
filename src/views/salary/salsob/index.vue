@@ -8,23 +8,25 @@
       <el-table :data="salaries" border stripe>
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column width="120" prop="name" label="账套名称"></el-table-column>
-        <el-table-column width="70" prop="basicSalary" label="基本工资"></el-table-column>
-        <el-table-column width="70" prop="trafficSalary" label="交通补助"></el-table-column>
-        <el-table-column width="70" prop="lunchSalary" label="午餐补助"></el-table-column>
-        <el-table-column width="70" prop="bonus" label="奖金"></el-table-column>
-        <el-table-column width="100" prop="createDate" label="启用时间"></el-table-column>
-        <el-table-column label="养老金" align="center">
-          <el-table-column width="70" prop="pensionPer" label="比率"></el-table-column>
-          <el-table-column width="70" prop="pensionBase" label="基数"></el-table-column>
-        </el-table-column>
-        <el-table-column label="医疗保险" align="center">
-          <el-table-column width="70" prop="medicalPer" label="比率"></el-table-column>
-          <el-table-column width="70" prop="medicalBase" label="基数"></el-table-column>
-        </el-table-column>
-        <el-table-column label="公积金" align="center">
-          <el-table-column width="70" prop="accumulationFundPer" label="比率"></el-table-column>
-          <el-table-column width="70" prop="accumulationFundBase" label="基数"></el-table-column>
-        </el-table-column>
+        <el-table-column width="120" prop="basicSalary" label="基本工资"></el-table-column>
+        <el-table-column width="120" prop="trafficSalary" label="交通补助"></el-table-column>
+        <el-table-column width="120" prop="lunchSalary" label="午餐补助"></el-table-column>
+        <el-table-column width="120" prop="bonus" label="奖金"></el-table-column>
+        <el-table-column width="120" prop="createDate" label="启用时间"></el-table-column>
+        <el-table-column width="120" prop="baseMoney" label="五险一金缴纳基数"></el-table-column>
+
+<!--        <el-table-column label="养老金" align="center">-->
+<!--          <el-table-column width="70" prop="pensionPer" label="比率"></el-table-column>-->
+<!--          <el-table-column width="70" prop="pensionBase" label="基数"></el-table-column>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="医疗保险" align="center">-->
+<!--          <el-table-column width="70" prop="medicalPer" label="比率"></el-table-column>-->
+<!--          <el-table-column width="70" prop="medicalBase" label="基数"></el-table-column>-->
+<!--        </el-table-column>-->
+<!--        <el-table-column label="公积金" align="center">-->
+<!--          <el-table-column width="70" prop="accumulationFundPer" label="比率"></el-table-column>-->
+<!--          <el-table-column width="70" prop="accumulationFundBase" label="基数"></el-table-column>-->
+<!--        </el-table-column>-->
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="showEditSalaryView(scope.row)">编辑</el-button>
@@ -46,8 +48,8 @@
                   :key="index" v-show="activeItemIndex==index" style="width: 200px"></el-input>
       </div>
       <span slot="footer" class="dialog-footer">
-    <el-button @click="preStep">{{activeItemIndex==10?'取消':'上一步'}}</el-button>
-    <el-button type="primary" @click="nextStep">{{activeItemIndex==10?'完成':'下一步'}}</el-button>
+    <el-button @click="preStep">{{activeItemIndex==5?'取消':'上一步'}}</el-button>
+    <el-button type="primary" @click="nextStep">{{activeItemIndex==5?'完成':'下一步'}}</el-button>
   </span>
     </el-dialog>
   </div>
@@ -60,19 +62,59 @@
       return {
         dialogVisible: false,
         dialogTitle: '添加工资账套',
-        salaries: [],
+        salaries: [{basicSalary: 5000,
+          trafficSalary: 100,
+          lunchSalary: 100,
+          bonus: 1000,
+          baseMoney:5000,
+          // pensionPer: 0.8,
+          // pensionBase: 2000,
+          // medicalPer: 0.8,
+          // medicalBase: 2000,
+          // accumulationFundPer: 0.8,
+          // accumulationFundBase: 2000,
+          name: '研发部工资套账',
+          createDate:'2020-5-6'},
+          {basicSalary: 5000,
+            trafficSalary: 100,
+            lunchSalary: 100,
+            bonus: 1000,
+            baseMoney:5000,
+            // pensionPer: 0.8,
+            // pensionBase: 2000,
+            // medicalPer: 0.8,
+            // medicalBase: 2000,
+            // accumulationFundPer: 0.8,
+            // accumulationFundBase: 2000,
+            name: '运维部工资套账',
+            createDate:'2020-5-6'},
+          {basicSalary: 5000,
+            trafficSalary: 100,
+            lunchSalary: 100,
+            bonus: 1000,
+            baseMoney:5000,
+            // pensionPer: 0.8,
+            // pensionBase: 2000,
+            // medicalPer: 0.8,
+            // medicalBase: 2000,
+            // accumulationFundPer: 0.8,
+            // accumulationFundBase: 2000,
+            name: '人事部工资套账',
+            createDate:'2020-5-6'},
+          ],
         activeItemIndex: 0,
         salaryItemName: [
           '基本工资',
           '交通补助',
           '午餐补助',
           '奖金',
-          '养老金比率',
-          '养老金基数',
-          '医疗保险比率',
-          '医疗保险基数',
-          '公积金比率',
-          '公积金基数',
+          '五险一金基数',
+          // '养老金比率',
+          // '养老金基数',
+          // '医疗保险比率',
+          // '医疗保险基数',
+          // '公积金比率',
+          // '公积金基数',
           '账套名称'
         ],
         salary: {
@@ -101,12 +143,13 @@
         this.salary.trafficSalary = data.trafficSalary;
         this.salary.lunchSalary = data.lunchSalary;
         this.salary.bonus = data.bonus;
-        this.salary.pensionPer = data.pensionPer;
-        this.salary.pensionBase = data.pensionBase;
-        this.salary.medicalPer = data.medicalPer;
-        this.salary.medicalBase = data.medicalBase;
-        this.salary.accumulationFundPer = data.accumulationFundPer;
-        this.salary.accumulationFundBase = data.accumulationFundBase;
+        this.salary.baseMoney=data.baseMoney;
+        // this.salary.pensionPer = data.pensionPer;
+        // this.salary.pensionBase = data.pensionBase;
+        // this.salary.medicalPer = data.medicalPer;
+        // this.salary.medicalBase = data.medicalBase;
+        // this.salary.accumulationFundPer = data.accumulationFundPer;
+        // this.salary.accumulationFundBase = data.accumulationFundBase;
         this.salary.name = data.name;
         this.salary.id = data.id;
       },
@@ -125,9 +168,9 @@
         })
       },
       preStep() {
-        if (this.activeItemIndex == 0) {
+        if (this.activeItemIndex ===0) {
           return;
-        } else if (this.activeItemIndex == 10) {
+        } else if (this.activeItemIndex === 5) {
           //关闭对话框
           this.dialogVisible = false;
           return;
@@ -135,16 +178,20 @@
         this.activeItemIndex--;
       },
       nextStep() {
-        if (this.activeItemIndex == 10) {
+        if (this.activeItemIndex === 5) {
           if (this.salary.id) {
-            this.putRequest("/salary/sob/", this.salary).then(resp=>{
-              if (resp) {
-                this.initSalaries();
-                this.dialogVisible = false;
-              }
-            })
+            this.salary.createDate='2020-5-6';
+            this.salaries.push(this.salary);
+            this.dialogVisible = false;
+            // this.putRequest("/salary/sob/", this.salary).then(resp=>{
+            //   if (resp) {
+            //     this.initSalaries();
+            //     this.dialogVisible = false;
+            //   }
+            // })
           } else {
             this.postRequest("/salary/sob/", this.salary).then(resp => {
+
               if (resp) {
                 this.initSalaries();
                 this.dialogVisible = false;

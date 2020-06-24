@@ -8,9 +8,9 @@
       <template v-if="device!=='mobile'">
         <search id="header-search" class="right-menu-item" />
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
-          <Github class="right-menu-item hover-effect" />
-        </el-tooltip>
+<!--        <el-tooltip content="源码地址" effect="dark" placement="bottom">-->
+<!--          <Github class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
 
         <el-tooltip content="全屏缩放" effect="dark" placement="bottom">
           <screenfull id="screenfull" class="right-menu-item hover-effect" />
@@ -28,11 +28,11 @@
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown">
-          <a target="_blank" href="https://docs.auauz.net/">
-            <el-dropdown-item>
-              项目文档
-            </el-dropdown-item>
-          </a>
+<!--          <a target="_blank" href="https://docs.auauz.net/">-->
+<!--            <el-dropdown-item>-->
+<!--              项目文档-->
+<!--            </el-dropdown-item>-->
+<!--          </a>-->
           <span style="display:block;" @click="show = true">
             <el-dropdown-item>
               布局设置

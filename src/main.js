@@ -30,6 +30,8 @@ import './assets/icons' // icon
 import './router/index' // permission control
 import dateFormat from "./utils/dateFormat";
 
+
+
 Vue.use(VueHighlightJS)
 Vue.use(mavonEditor)
 Vue.use(permission)

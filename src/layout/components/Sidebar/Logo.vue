@@ -25,8 +25,8 @@ export default {
   },
   data() {
     return {
-      title: 'ELADMIN-后台管理',
-      logo: Logo
+      title: '毕业设计-人力资源管理系统',
+      logo: null
     }
   }
 }

@@ -183,7 +183,6 @@ export default {
     //请求人员数据
     querydata(){
       //注意 要改成当前部门下的所有人员数据
-      console.log('请求数据.....');
       request({
         url: 'api/users',
         method: 'get'

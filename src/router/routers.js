@@ -57,6 +57,27 @@ export const constantRouterMap = [
         meta: { title: '个人中心' }
       }
     ]
+  },
+  {
+    path: '/candidate',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'sendInterview',
+        component: () => import('@/views/recruitment/candidate/sendInterview'),
+        name: 'sendInterview',
+        meta: { title: '发送面试通知' },
+        props:true
+      },{
+        path: 'sendOffer',
+        component: () => import('@/views/recruitment/candidate/sendoffer'),
+        name: 'sendOffer',
+        meta: { title: '发送入职通知' },
+        props:true
+      }
+    ]
   }
 ]
 

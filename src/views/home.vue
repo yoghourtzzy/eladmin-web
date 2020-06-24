@@ -5,23 +5,23 @@
       <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
         <line-chart />
       </el-row>
-      <el-row :gutter="32">
-        <el-col :xs="24" :sm="24" :lg="8">
-          <div class="chart-wrapper">
-            <radar-chart />
-          </div>
-        </el-col>
-        <el-col :xs="24" :sm="24" :lg="8">
-          <div class="chart-wrapper">
-            <pie-chart />
-          </div>
-        </el-col>
-        <el-col :xs="24" :sm="24" :lg="8">
-          <div class="chart-wrapper">
-            <bar-chart />
-          </div>
-        </el-col>
-      </el-row>
+<!--      <el-row :gutter="32">-->
+<!--        <el-col :xs="24" :sm="24" :lg="8">-->
+<!--          <div class="chart-wrapper">-->
+<!--            <radar-chart />-->
+<!--          </div>-->
+<!--        </el-col>-->
+<!--        <el-col :xs="24" :sm="24" :lg="8">-->
+<!--          <div class="chart-wrapper">-->
+<!--            <pie-chart />-->
+<!--          </div>-->
+<!--        </el-col>-->
+<!--        <el-col :xs="24" :sm="24" :lg="8">-->
+<!--          <div class="chart-wrapper">-->
+<!--            <bar-chart />-->
+<!--          </div>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
     </div>
   </div>
 </template>
